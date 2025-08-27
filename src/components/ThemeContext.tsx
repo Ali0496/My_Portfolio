@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { createContext, useEffect } from "react";
 type Theme = "light" | "dark";
@@ -21,12 +21,14 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
-
   };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
     const initialTheme = savedTheme || systemTheme;
     setTheme(initialTheme);
     document.documentElement.classList.toggle("dark", initialTheme === "dark");
@@ -44,11 +46,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 export function useTheme() {
-    const context = React.useContext(ThemeContext);
-    if (!context) {
-      throw new Error("useTheme must be used within a ThemeProvider");
-    }
-    return context;
+  const context = React.useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 }
 
 export default ThemeContext;
