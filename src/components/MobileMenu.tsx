@@ -87,7 +87,7 @@ const MobileMenu = () => {
       <Theme />
       <button
         onClick={() => setMobileMenuIsOpen(!isMobileMenuOpen)}
-        className="hover:text-gray-600 p-2 hoverEffect rounded-lg transition-colors"
+        className="hover:text-gray-300 p-2 hoverEffect rounded-lg transition-colors"
         aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
       >
         <motion.div
