@@ -1,6 +1,14 @@
 import Container from "@/components/Container";
+import Hero from "@/components/home/Hero";
+import Projects from "@/components/home/Projects";
 
 export default function Home() {
-  return <Container>Hello World
-  </Container>;
+  return (
+    <main>
+      <Container>
+        <Hero />
+        <Projects />
+      </Container>
+    </main>
+  );
 }

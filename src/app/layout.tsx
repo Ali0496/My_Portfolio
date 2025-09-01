@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeContext";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -50,9 +51,11 @@ export default function RootLayout({
         className={`${inter.variable} antialiased bg-white transition-colors duration-300 dark:bg-gray-900 dark:text-white`}
       >
         <ThemeProvider>
-          <Header />
-          <main className="min-h-screen pt-24">{children}</main>
-          <Footer />
+          <TooltipProvider>
+            <Header />
+            <main className="min-h-screen pt-24">{children}</main>
+            <Footer />
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
