@@ -16,14 +16,17 @@ import {
 const MobileMenuPanel = ({
   isOpen,
   setIsOpen,
+  menuRef,
 }: {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  menuRef: React.RefObject<HTMLDivElement>;
 }) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={menuRef}
           className="md:hidden w-full bg-white/95  text-gray-800 dark:bg-gray-800/95 dark:text-white z-50 border-b border-gray-700 absolute top-full left-0"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -65,12 +68,12 @@ const MobileMenuPanel = ({
                   >
                     <Link
                       href={item.href}
-                      className="dark:text-white hover:text-blue-400 group hoverEffect text-lg font-medium py-2 relative"
+                      className="dark:text-white hover:text-blue-400 group text-lg font-medium py-2 relative transition-all duration-300"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.label}
-                      <span className="absolute -bottom-0.5 left-1/2  w-0 h-0.5 bg-blue-600 group-hover:w-1/2 hoverEffect group-hover:left-0" />
-                      <span className="absolute -bottom-0.5 right-1/2  w-0 h-0.5 bg-blue-600 group-hover:w-1/2 hoverEffect group-hover:right-0" />
+                      <span className="absolute -bottom-0.5 left-1/2  w-0 h-0.5 bg-blue-600 group-hover:w-1/2 group-hover:left-0 transition-all duration-300" />
+                      <span className="absolute -bottom-0.5 right-1/2  w-0 h-0.5 bg-blue-600 group-hover:w-1/2 group-hover:right-0 transition-all duration-300" />
                     </Link>
                   </motion.div>
                 ))}
@@ -86,6 +89,24 @@ const MobileMenuPanel = ({
 // MobileMenu component
 const MobileMenu = () => {
   const [isMobileMenuOpen, setMobileMenuIsOpen] = React.useState(false);
+  const menuRef = React.useRef<HTMLDivElement >(null!);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isMobileMenuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <div className="md:hidden flex items-center sm:gap-0 md:gap-1 ">
@@ -94,7 +115,7 @@ const MobileMenu = () => {
         <TooltipTrigger asChild>
           <button
             onClick={() => setMobileMenuIsOpen(!isMobileMenuOpen)}
-            className="hover:text-gray-600 p-1 sm:p-2 hoverEffect rounded-lg transition-colors"
+            className="hover:text-gray-600 p-1 sm:p-2  rounded-lg transition-all duration-300"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             <motion.div
@@ -117,6 +138,7 @@ const MobileMenu = () => {
       <MobileMenuPanel
         isOpen={isMobileMenuOpen}
         setIsOpen={setMobileMenuIsOpen}
+        menuRef={menuRef}
       />
     </div>
   );

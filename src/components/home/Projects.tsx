@@ -19,7 +19,7 @@ const Projects = () => {
       // Pin only the heading when it reaches the top
       gsap.fromTo(
         ".projects-heading",
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: 50 },  
         {
           opacity: 1,
           y: 0,
@@ -35,9 +35,10 @@ const Projects = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top", // now container has reached top
-          end: "+=1500",
+          end: "+=1600",
           scrub: true,
           pin: true,
+          pinSpacing: true,
         },
         defaults: { duration: 1.5, ease: "power3.out" },
       });
@@ -65,8 +66,11 @@ const Projects = () => {
   }, []);
 
   return (
-    <section className="py-10 md:py-15 max-w-7xl mx-auto" ref={containerRef}>
-      <h2 className="projects-heading text-2xl font-bold text-center mb-10 sticky top-20">
+    <section
+      className="py-10 mb-2 md:py-15 max-w-7xl mx-auto relative z-0"
+      ref={containerRef}
+    >
+      <h2 className="projects-heading text-2xl font-bold text-center mb-10 mt-10">
         Featured Projects
       </h2>
 
