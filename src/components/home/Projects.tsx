@@ -16,25 +16,31 @@ const Projects = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Pin only the heading when it reaches the top
+      gsap.fromTo(
+        ".projects-heading",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top center", // when Projects top hits middle of screen
+            end: "top top", // until Projects top hits viewport top
+            scrub: true,
+          },
+        }
+      );
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 7%", // when container top hits 70% of viewport
-          end: "+=1000", // extend the scroll space by 1000px
+          start: "top top", // now container has reached top
+          end: "+=1500",
           scrub: true,
-          pin: true, // keeps container fixed while animating
-          markers: true, // debug
+          pin: true,
         },
         defaults: { duration: 1.5, ease: "power3.out" },
       });
-
-      // Animate heading first (move from top into center, fade in)
-      tl.fromTo(
-        ".projects-heading",
-        { opacity: 0, y: -100 },
-        { opacity: 1, y: 0 },
-        0 // start immediately
-      );
 
       // directions for the 6 cards
       const directions = [
@@ -60,7 +66,7 @@ const Projects = () => {
 
   return (
     <section className="py-10 md:py-15 max-w-7xl mx-auto" ref={containerRef}>
-      <h2 className="projects-heading text-2xl font-bold text-center mb-10">
+      <h2 className="projects-heading text-2xl font-bold text-center mb-10 sticky top-20">
         Featured Projects
       </h2>
 
@@ -122,41 +128,6 @@ const Projects = () => {
           </article>
         ))}
       </div>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere
-        nesciunt, recusandae est asperiores non nemo aspernatur eum quo dolorum
-        eius sunt hic quos sint voluptatem veritatis assumenda quae nihil
-        voluptates voluptas consectetur amet qui praesentium sit. Corporis
-        officiis, recusandae aut excepturi libero labore vel ipsam id in quis
-        veritatis qui quibusdam, atque sunt porro corrupti est modi aliquam fuga
-        voluptate dolorem. Voluptatibus saepe possimus temporibus animi expedita
-        voluptatem voluptas magnam dolores. Minima quis tempora, sapiente
-        perspiciatis repellendus esse. Ipsam mollitia ratione itaque. Aperiam
-        deserunt voluptatum nostrum aut autem obcaecati ullam explicabo totam
-        repellat enim! Aut, aliquid quae. Nulla architecto possimus earum magnam
-        modi fugiat quidem repudiandae inventore. Quod, molestias consectetur
-        ullam sequi iure aspernatur, doloremque quibusdam minus doloribus
-        laborum officiis magni asperiores eius facere, corrupti nobis sint natus
-        cum? Pariatur ullam ex fuga quas suscipit beatae dolores, esse, magni
-        deleniti voluptatum accusamus, neque odit sapiente maxime distinctio
-        obcaecati nihil! Pariatur aperiam quia nulla dolorum architecto minima
-        repudiandae cum consequatur et expedita amet eveniet neque quas dolor
-        eaque, dignissimos sit accusamus laudantium! Eius hic libero enim odio
-        tenetur adipisci optio alias corporis totam fuga, qui voluptate amet
-        possimus minima omnis maxime velit temporibus, quo exercitationem
-        impedit. In at modi reiciendis, cupiditate sit fugit nisi adipisci
-        provident nobis libero dolore, ducimus voluptatem voluptas deserunt hic
-        reprehenderit doloribus impedit labore soluta ipsam recusandae error
-        dignissimos? Vitae, nulla tempora? Doloribus labore recusandae, quis
-        earum necessitatibus repudiandae rerum, consequatur deserunt repellat
-        laudantium unde, iure beatae. Fugiat voluptate molestiae laboriosam
-        quidem. Quasi at similique, veniam eum laboriosam commodi veritatis eos
-        odio unde corrupti asperiores ea soluta autem nulla dolorem ipsum ad
-        ullam in illo. Mollitia nemo eligendi beatae accusantium unde facilis
-        dicta quasi, amet odit deleniti quos. Quidem, dolor! Quos mollitia
-        architecto quis perferendis minima eveniet eligendi, quia explicabo
-        sapiente cum, rem numquam! Quibusdam, obcaecati ipsum?
-      </p>
     </section>
   );
 };

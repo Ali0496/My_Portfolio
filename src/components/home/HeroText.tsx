@@ -4,16 +4,33 @@ import React from "react";
 import { FaGithub, FaLinkedin, FaTelegram } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
+
+import { useState, useEffect } from "react";
 
 const HeroText = () => {
+  const [showArrow, setShowArrow] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowArrow(false);
+      } else {
+        setShowArrow(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div>
-      {/* Container for the main text, with a slight delay */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2 }}
-        className="text-center" // Centering for better mobile responsiveness
+        className="text-center" 
       >
         <h1 className="text-4xl mb-5 md:text-5xl font-bold tracking-wide">
           Hello, I&apos;m{" "}
@@ -25,9 +42,8 @@ const HeroText = () => {
               stiffness: 260,
               damping: 20,
               delay: 0.7,
-            }} // Added a spring effect for a "pop" animation
-            className="text-blue-600 inline-block" // `inline-block` fixes an issue with `scale` on `span`
-          >
+            }} 
+            className="text-blue-600 inline-block"           >
             Muhammadali
           </motion.span>
         </h1>
@@ -61,12 +77,11 @@ const HeroText = () => {
           <FaTelegram />
         </Link>
       </motion.div>{" "}
-      {/* Action buttons */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8 }} // Adjusted delay to follow the social icons
-        className="flex flex-col sm:flex-row items-center justify-center gap-2" // Use `gap` instead of `space-x` for better spacing
+        transition={{ duration: 0.8, delay: 0.8 }} 
+        className="flex flex-col sm:flex-row items-center justify-center gap-2" 
       >
         <Link
           href="/projects"
@@ -83,6 +98,17 @@ const HeroText = () => {
           Contact Me
         </Link>
       </motion.div>
+      {showArrow && (
+        <motion.div
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer"
+          animate={{ y: [0, 20, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <ChevronDown size={50} />
+        </motion.div>
+      )}
     </div>
   );
 };
